@@ -1,0 +1,949 @@
+# ChikkaChat — Low-Level Requirements (MVP Prioritized)
+
+# Project Information
+
+**Project Name:** ChikkaChat
+**Type:** Real-Time Messaging Platform
+**Developer:** Vic Andrew A. Dizon
+**Architecture:** Fullstack Real-Time Web Application
+
+**Tech Stack:**
+
+Frontend:
+
+* React + TypeScript
+* Tailwind CSS
+* Socket.IO Client
+* Firebase Authentication SDK
+
+Backend:
+
+* Node.js
+* Express.js
+* Socket.IO Server
+
+Database:
+
+* MongoDB
+* Mongoose ODM
+
+Storage:
+
+* Firebase Storage
+
+Authentication:
+
+* Firebase Auth
+
+Deployment:
+
+* Free-tier cloud deployment
+
+---
+
+# 1. MVP DEVELOPMENT PRIORITY
+
+## Phase 1 — Core MVP (Must Be Working First)
+
+These features are required for a usable messaging platform.
+
+---
+
+# Authentication System
+
+Priority: Critical
+
+## Features:
+
+### Firebase Authentication
+
+Supported methods:
+
+* Google OAuth Login
+* Email & Password Registration
+* Email & Password Login
+* Logout
+* Session persistence
+
+## User Account Management
+
+System must support:
+
+* User profile creation
+* Display name
+* Profile picture
+* Email information
+* Account status
+
+Reason:
+
+Authentication is required before accessing private conversations.
+
+---
+
+# Real-Time Private Messaging
+
+Priority: Critical
+
+## Features:
+
+Users can:
+
+* Search users
+* Start private conversation
+* Send messages instantly
+* Receive messages instantly
+* View message timestamps
+* See message delivery status
+
+## Real-Time Technology
+
+Using:
+
+Socket.IO
+
+Communication flow:
+
+```txt
+Client
+  |
+Socket.IO Connection
+  |
+Node.js Server
+  |
+MongoDB
+```
+
+Reason:
+
+The main purpose of the application is real-time communication.
+
+---
+
+# Conversation System
+
+Priority: Critical
+
+## Private Conversations
+
+Features:
+
+* One-to-one chat
+* Conversation creation
+* Conversation history
+* Last message preview
+* Message timestamps
+
+## Group Conversations
+
+Features:
+
+* Create group chat
+* Add members
+* Remove members
+* Rename group
+* Group profile picture
+
+Reason:
+
+Supports both personal and community communication.
+
+---
+
+# Messaging System
+
+Priority: Critical
+
+## Message Features
+
+Users can:
+
+* Send text messages
+* Receive messages
+* Delete messages
+* Reply to messages
+* Search messages
+
+Message information:
+
+```txt
+message_id
+sender_id
+conversation_id
+content
+message_type
+created_at
+updated_at
+```
+
+---
+
+# Online Presence System
+
+Priority: High
+
+## Features:
+
+Track:
+
+* Online users
+* Offline users
+* Last seen timestamp
+
+Example:
+
+```txt
+Andrew
+Online now
+```
+
+or
+
+```txt
+Andrew
+Last seen 5 minutes ago
+```
+
+Implementation:
+
+Socket.IO connection tracking
+
+---
+
+# Typing Indicator System
+
+Priority: High
+
+Features:
+
+When user types:
+
+Display:
+
+```txt
+Andrew is typing...
+```
+
+Socket events:
+
+```txt
+typing:start
+typing:stop
+```
+
+Reason:
+
+Improves real-time messaging experience.
+
+---
+
+# 2. SECONDARY MVP FEATURES
+
+# File & Image Sharing
+
+Priority: High
+
+## Firebase Storage Integration
+
+Users can upload:
+
+* Images
+* Documents
+* Files
+
+Supported:
+
+```txt
+jpg
+png
+gif
+pdf
+docx
+```
+
+Flow:
+
+```txt
+User Upload
+      |
+Firebase Storage
+      |
+Download URL
+      |
+MongoDB Message Record
+```
+
+Message type:
+
+```txt
+text
+image
+file
+```
+
+---
+
+# Message History Pagination
+
+Priority: High
+
+## Features:
+
+Load messages in batches.
+
+Example:
+
+First request:
+
+```txt
+Latest 30 messages
+```
+
+Next:
+
+```txt
+Older 30 messages
+```
+
+Purpose:
+
+Prevent loading thousands of messages at once.
+
+---
+
+# Message Search
+
+Priority: Medium
+
+Users can search:
+
+* Text content
+* Sender
+* Date
+
+Example:
+
+Search:
+
+```txt
+"meeting"
+```
+
+Returns:
+
+All messages containing:
+
+```txt
+meeting
+```
+
+---
+
+# 3. POST-MVP FEATURES
+
+# Advanced Notifications
+
+Priority: Medium
+
+Features:
+
+* Browser notifications
+* Message alerts
+* Mention notifications
+
+---
+
+# Message Reactions
+
+Priority: Medium
+
+Features:
+
+Emoji reactions:
+
+```txt
+❤️
+👍
+😂
+🔥
+```
+
+---
+
+# Voice Messages
+
+Priority: Low
+
+Features:
+
+* Record audio
+* Upload audio
+* Playback
+
+---
+
+# Video / Voice Calls
+
+Priority: Low
+
+Using:
+
+WebRTC
+
+Features:
+
+* Voice call
+* Video call
+* Screen sharing
+
+---
+
+# 4. FRONTEND LOW-LEVEL REQUIREMENTS
+
+# React + TypeScript Architecture
+
+Folder Structure:
+
+```txt
+src/
+
+ ├── components/
+ ├── pages/
+ ├── layouts/
+ ├── hooks/
+ ├── socket/
+ ├── firebase/
+ ├── services/
+ ├── api/
+ ├── store/
+ ├── types/
+ └── utils/
+```
+
+---
+
+# Required Pages
+
+## Public Pages
+
+```txt
+Landing Page
+Login Page
+Register Page
+```
+
+---
+
+## Protected Pages
+
+```txt
+Chat Dashboard
+
+Conversation Page
+
+Profile Settings
+
+Group Management
+```
+
+---
+
+# Required Components
+
+## Shared Components
+
+```txt
+Navbar
+
+Sidebar
+
+Avatar
+
+Button
+
+Modal
+
+Input
+
+Dropdown
+
+Loading State
+
+Toast Notification
+```
+
+---
+
+# Chat Components
+
+## Message Area
+
+Features:
+
+* Message bubbles
+* Time display
+* Sender information
+* Read status
+
+---
+
+## Conversation Sidebar
+
+Features:
+
+* Recent chats
+* Search
+* Online indicators
+
+---
+
+## Composer
+
+Features:
+
+* Text input
+* Emoji picker
+* File upload
+* Send button
+
+---
+
+# State Management
+
+Recommended:
+
+Zustand
+
+Stores:
+
+```txt
+Auth Store
+
+Chat Store
+
+Socket Store
+
+User Store
+```
+
+---
+
+# 5. BACKEND LOW-LEVEL REQUIREMENTS
+
+# Node.js + Express Architecture
+
+Folder Structure:
+
+```txt
+server/
+
+├── controllers/
+
+├── routes/
+
+├── models/
+
+├── services/
+
+├── middleware/
+
+├── socket/
+
+├── config/
+
+└── utils/
+```
+
+---
+
+# REST API REQUIREMENTS
+
+# Authentication
+
+```txt
+POST /api/users/profile
+
+GET /api/users/:id
+
+PUT /api/users/:id
+```
+
+---
+
+# Conversation APIs
+
+```txt
+POST /api/conversations
+
+GET /api/conversations
+
+GET /api/conversations/:id
+
+PUT /api/conversations/:id
+
+DELETE /api/conversations/:id
+```
+
+---
+
+# Message APIs
+
+```txt
+POST /api/messages
+
+GET /api/messages/:conversationId
+
+DELETE /api/messages/:id
+
+GET /api/messages/search
+```
+
+---
+
+# File APIs
+
+```txt
+POST /api/uploads
+
+GET /api/uploads/:id
+```
+
+---
+
+# 6. SOCKET.IO REQUIREMENTS
+
+# Client → Server Events
+
+## Connection
+
+```txt
+connect
+disconnect
+```
+
+---
+
+## Messaging
+
+Send message:
+
+```txt
+message:send
+```
+
+Join conversation:
+
+```txt
+conversation:join
+```
+
+Leave conversation:
+
+```txt
+conversation:leave
+```
+
+---
+
+## Typing
+
+```txt
+typing:start
+
+typing:stop
+```
+
+---
+
+## Presence
+
+```txt
+user:online
+
+user:offline
+```
+
+---
+
+# Server → Client Events
+
+Receive message:
+
+```txt
+message:receive
+```
+
+User status:
+
+```txt
+user:status
+```
+
+Typing:
+
+```txt
+typing:update
+```
+
+---
+
+# 7. DATABASE REQUIREMENTS (MongoDB)
+
+# Users Collection
+
+```txt
+_id
+
+firebase_uid
+
+display_name
+
+email
+
+photo_url
+
+status
+
+last_seen
+
+created_at
+```
+
+---
+
+# Conversations Collection
+
+```txt
+_id
+
+type
+
+name
+
+members[]
+
+admin_id
+
+created_at
+
+updated_at
+```
+
+---
+
+# Messages Collection
+
+```txt
+_id
+
+conversation_id
+
+sender_id
+
+content
+
+message_type
+
+file_url
+
+created_at
+
+updated_at
+```
+
+---
+
+# 8. SYSTEM ARCHITECTURE
+
+```txt
+
+React Frontend
+
+      |
+
+Socket.IO Client
+
+      |
+
+Express + Node.js Server
+
+      |
+
+Socket.IO Server
+
+      |
+
+MongoDB Database
+
+
+Firebase:
+
+Authentication
+Storage
+
+```
+
+---
+
+# 9. NON-FUNCTIONAL REQUIREMENTS
+
+# Performance
+
+Requirements:
+
+* Message delivery under 500ms
+* API response under 1 second
+* Support multiple active users
+
+---
+
+# Security
+
+Required:
+
+* Firebase authentication validation
+* Protected routes
+* Input sanitization
+* File upload validation
+* Rate limiting
+
+---
+
+# Scalability
+
+System should support:
+
+* More chat rooms
+* More users
+* Mobile application
+* Push notifications
+* Advanced messaging features
+
+---
+
+# 10. DEVELOPMENT PHASE PLAN (~2 WEEKS)
+
+# Phase 1
+
+Project Setup
+
+* React setup
+* Express setup
+* MongoDB setup
+* Firebase setup
+
+---
+
+# Phase 2
+
+Authentication
+
+* Google login
+* Email login
+* User profiles
+
+---
+
+# Phase 3
+
+Real-Time Chat
+
+* Socket.IO
+* Private messaging
+* Conversation system
+
+---
+
+# Phase 4
+
+Advanced Messaging
+
+* Group chats
+* Typing indicators
+* Presence
+
+---
+
+# Phase 5
+
+Media Features
+
+* Image sharing
+* File uploads
+* Firebase Storage
+
+---
+
+# Phase 6
+
+Deployment
+
+* Frontend deployment
+* Backend deployment
+* Database hosting
+
+---
+
+# 11. FINAL MVP SCOPE
+
+## Include in MVP
+
+✅ Firebase Authentication
+✅ Private Messaging
+✅ Group Chats
+✅ Socket.IO Real-Time Communication
+✅ Online Presence
+✅ Typing Indicators
+✅ Message History
+✅ Pagination
+✅ Search
+✅ File/Image Uploads
+
+---
+
+# Move to Post-MVP
+
+⏳ Voice Calls
+⏳ Video Calls
+⏳ Message Reactions
+⏳ Push Notifications
+⏳ AI Chat Features
+
+---
+
+# 12. INTERVIEW TALKING POINTS
+
+## Architecture
+
+"I designed a real-time fullstack chat system using Socket.IO for low-latency communication and MongoDB for scalable message storage."
+
+## Authentication
+
+"I used Firebase Authentication to handle secure user identity management while keeping the backend stateless."
+
+## Real-Time Engineering
+
+"Socket.IO handles live messaging, presence tracking, and typing indicators through event-driven communication."
+
+## Scalability
+
+"The system separates real-time events from REST APIs, allowing future expansion into mobile apps and advanced messaging features."
+
+---
+
+# 13. ENGINEERING PRIORITY
+
+The MVP prioritizes:
+
+1. Real-time reliability
+2. Secure authentication
+3. Clean architecture
+4. Scalable database design
+5. Good user experience
+
+Avoid:
+
+* Overengineering
+* Microservices too early
+* Unnecessary complexity
+* Building advanced features before core messaging works

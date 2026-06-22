@@ -1,0 +1,57 @@
+interface AvatarProps {
+  src?: string;
+  name: string;
+  size?: "sm" | "md" | "lg";
+  online?: boolean;
+}
+
+const sizeClasses = {
+  sm: "h-8 w-8 text-xs",
+  md: "h-10 w-10 text-sm",
+  lg: "h-14 w-14 text-lg",
+};
+
+const indicatorClasses = {
+  sm: "h-2.5 w-2.5",
+  md: "h-3 w-3",
+  lg: "h-3.5 w-3.5",
+};
+
+export default function Avatar({
+  src,
+  name,
+  size = "md",
+  online,
+}: AvatarProps) {
+  const initials = name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+
+  return (
+    <div className="relative inline-flex shrink-0">
+      {src ? (
+        <img
+          src={src}
+          alt={name}
+          className={`${sizeClasses[size]} rounded-full object-cover`}
+        />
+      ) : (
+        <div
+          className={`${sizeClasses[size]} flex items-center justify-center rounded-full bg-blue-500 font-medium text-white`}
+        >
+          {initials}
+        </div>
+      )}
+      {online !== undefined && (
+        <span
+          className={`absolute bottom-0 right-0 block ${indicatorClasses[size]} rounded-full border-2 border-white ${
+            online ? "bg-green-400" : "bg-gray-300"
+          }`}
+        />
+      )}
+    </div>
+  );
+}
