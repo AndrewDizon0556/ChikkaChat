@@ -1,4 +1,5 @@
 import admin from "firebase-admin";
+import type { auth as Auth } from "firebase-admin";
 
 const firebaseApp = admin.initializeApp({
   credential: admin.credential.cert({
@@ -8,5 +9,5 @@ const firebaseApp = admin.initializeApp({
   }),
 });
 
-export const auth = firebaseApp.auth();
+export const auth: Auth.Auth = firebaseApp.auth();
 export default firebaseApp;
