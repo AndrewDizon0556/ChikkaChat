@@ -1,5 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import {
+  initializeAuth,
+  indexedDBLocalPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence,
+  inMemoryPersistence,
+} from "firebase/auth";
 import { getStorage, type FirebaseStorage } from "firebase/storage";
 
 const firebaseConfig = {
@@ -20,7 +26,18 @@ console.log(
 );
 
 const app = initializeApp(firebaseConfig);
-export const firebaseAuth = getAuth(app);
+
+// Use a persistence fallback chain. If IndexedDB is blocked/unavailable
+// (which surfaces misleadingly as auth/network-request-failed), the SDK
+// falls back to localStorage, then sessionStorage, then in-memory.
+export const firebaseAuth = initializeAuth(app, {
+  persistence: [
+    indexedDBLocalPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence,
+    inMemoryPersistence,
+  ],
+});
 
 let _storage: FirebaseStorage | null = null;
 export function getFirebaseStorage(): FirebaseStorage {
