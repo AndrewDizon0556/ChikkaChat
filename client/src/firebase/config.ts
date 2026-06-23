@@ -5,6 +5,7 @@ import {
   browserLocalPersistence,
   browserSessionPersistence,
   inMemoryPersistence,
+  browserPopupRedirectResolver,
 } from "firebase/auth";
 import { getStorage, type FirebaseStorage } from "firebase/storage";
 
@@ -28,6 +29,9 @@ export const firebaseAuth = initializeAuth(app, {
     browserSessionPersistence,
     inMemoryPersistence,
   ],
+  // Required for signInWithPopup / signInWithRedirect (Google sign-in).
+  // getAuth() includes this by default, but initializeAuth() does not.
+  popupRedirectResolver: browserPopupRedirectResolver,
 });
 
 let _storage: FirebaseStorage | null = null;
