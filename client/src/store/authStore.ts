@@ -36,7 +36,14 @@ export const useAuthStore = create<AuthState>((set) => ({
   error: null,
 
   initialize: () => {
+    // Safety net: if Firebase auth never reports a state (e.g. init hangs),
+    // stop showing the loading screen so the app still renders.
+    const safetyTimer = setTimeout(() => {
+      set((s) => (s.loading ? { ...s, loading: false } : s));
+    }, 5000);
+
     const unsubscribe = onAuthStateChanged(firebaseAuth, async (fbUser) => {
+      clearTimeout(safetyTimer);
       if (fbUser) {
         try {
           const { data } = await api.post("/api/users/profile", {
@@ -51,7 +58,10 @@ export const useAuthStore = create<AuthState>((set) => ({
         set({ firebaseUser: null, user: null, loading: false });
       }
     });
-    return unsubscribe;
+    return () => {
+      clearTimeout(safetyTimer);
+      unsubscribe();
+    };
   },
 
   loginWithEmail: async (email, password) => {
