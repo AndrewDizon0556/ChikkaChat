@@ -5,6 +5,7 @@ import {
   browserLocalPersistence,
   browserSessionPersistence,
   inMemoryPersistence,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { getStorage, type FirebaseStorage } from "firebase/storage";
 
@@ -44,5 +45,26 @@ export function getFirebaseStorage(): FirebaseStorage {
   if (!_storage) _storage = getStorage(app);
   return _storage;
 }
+
+// TEMPORARY DEBUG HOOK — runs the real SDK login and dumps the full error.
+// Call from console: __chikkaDebugLogin("livetest75552@gmail.com","test1234")
+(window as unknown as Record<string, unknown>).__chikkaDebugLogin = async (
+  email: string,
+  pw: string
+) => {
+  try {
+    const cred = await signInWithEmailAndPassword(firebaseAuth, email, pw);
+    console.log("✅ SDK LOGIN OK:", cred.user.email);
+  } catch (e) {
+    const err = e as { code?: string; message?: string; name?: string; customData?: unknown; stack?: string };
+    console.log("❌ SDK LOGIN FAILED");
+    console.log("code:", err.code);
+    console.log("name:", err.name);
+    console.log("message:", err.message);
+    console.log("customData:", err.customData);
+    console.log("stack:", err.stack);
+    console.log("full error object:", e);
+  }
+};
 
 export default app;
