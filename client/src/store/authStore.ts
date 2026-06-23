@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
@@ -98,10 +99,30 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   loginWithGoogle: async () => {
     set({ loading: true, error: null });
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
     try {
-      const provider = new GoogleAuthProvider();
       await signInWithPopup(firebaseAuth, provider);
     } catch (err) {
+      const code = (err as { code?: string }).code ?? "";
+      // Popups are frequently blocked; fall back to a full-page redirect.
+      if (
+        code === "auth/popup-blocked" ||
+        code === "auth/cancelled-popup-request" ||
+        code === "auth/popup-closed-by-user" ||
+        code === "auth/operation-not-supported-in-this-environment"
+      ) {
+        try {
+          await signInWithRedirect(firebaseAuth, provider);
+          return;
+        } catch (e2) {
+          set({
+            error: e2 instanceof Error ? e2.message : "Google login failed",
+            loading: false,
+          });
+          return;
+        }
+      }
       set({
         error: err instanceof Error ? err.message : "Google login failed",
         loading: false,
