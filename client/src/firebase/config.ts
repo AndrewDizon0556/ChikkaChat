@@ -11,6 +11,14 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
+// Build diagnostic — confirms config loaded in the deployed bundle (build v2)
+console.log(
+  "[ChikkaChat] Firebase config loaded:",
+  firebaseConfig.apiKey ? "apiKey OK" : "apiKey MISSING",
+  "| authDomain:",
+  firebaseConfig.authDomain || "MISSING"
+);
+
 const app = initializeApp(firebaseConfig);
 export const firebaseAuth = getAuth(app);
 
