@@ -77,19 +77,19 @@ export default function MessageComposer({
   };
 
   return (
-    <div className="border-t bg-white">
+    <div className="border-t border-slate-200 bg-white">
       {replyingTo && (
-        <div className="flex items-center justify-between border-b bg-gray-50 px-4 py-2">
-          <div className="min-w-0 flex-1">
-            <p className="text-xs font-medium text-blue-500">
+        <div className="flex animate-fade-in items-center justify-between border-b border-slate-100 bg-slate-50 px-4 py-2">
+          <div className="min-w-0 flex-1 border-l-2 border-brand-400 pl-3">
+            <p className="text-xs font-semibold text-brand-600">
               Replying to{" "}
               {typeof replyingTo.sender_id === "object"
                 ? replyingTo.sender_id.display_name
                 : "User"}
             </p>
-            <p className="truncate text-xs text-gray-500">{replyingTo.content}</p>
+            <p className="truncate text-xs text-slate-500">{replyingTo.content}</p>
           </div>
-          <button onClick={onCancelReply} className="ml-2 text-gray-400 hover:text-gray-600">
+          <button onClick={onCancelReply} className="icon-btn ml-2 p-1.5">
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -99,19 +99,19 @@ export default function MessageComposer({
 
       {uploading && (
         <div className="px-4 pt-2">
-          <div className="h-1.5 overflow-hidden rounded-full bg-gray-200">
+          <div className="h-1.5 overflow-hidden rounded-full bg-slate-200">
             <div
-              className="h-full rounded-full bg-blue-500 transition-all duration-300"
+              className="h-full rounded-full bg-brand-gradient transition-all duration-300"
               style={{ width: `${uploadProgress}%` }}
             />
           </div>
-          <p className="mt-1 text-xs text-gray-400">
+          <p className="mt-1 text-xs text-slate-400">
             Uploading... {Math.round(uploadProgress)}%
           </p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="flex items-center gap-2 p-3">
+      <form onSubmit={handleSubmit} className="flex items-center gap-2 p-3 md:px-4">
         <input
           ref={fileInputRef}
           type="file"
@@ -124,7 +124,8 @@ export default function MessageComposer({
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={uploading}
-          className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 disabled:opacity-50"
+          className="icon-btn disabled:opacity-50"
+          title="Attach a file"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
@@ -137,7 +138,7 @@ export default function MessageComposer({
           value={text}
           onChange={handleTextChange}
           placeholder="Type a message..."
-          className="flex-1 rounded-full border border-gray-200 px-4 py-2 text-sm focus:border-blue-400 focus:outline-none"
+          className="flex-1 rounded-full border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-800 transition-all placeholder:text-slate-400 focus:border-brand-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-100"
           autoComplete="off"
           disabled={uploading}
         />
@@ -145,7 +146,7 @@ export default function MessageComposer({
         <button
           type="submit"
           disabled={!text.trim() || uploading}
-          className="rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600 disabled:opacity-50"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-gradient text-white shadow-soft transition-all duration-200 hover:shadow-glow hover:brightness-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none disabled:hover:brightness-100"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

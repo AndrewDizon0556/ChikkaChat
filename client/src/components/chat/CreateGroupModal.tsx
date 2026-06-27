@@ -65,7 +65,7 @@ export default function CreateGroupModal({ open, onClose }: CreateGroupModalProp
           value={groupName}
           onChange={(e) => setGroupName(e.target.value)}
           placeholder="Group name"
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+          className="field"
           autoFocus
         />
 
@@ -74,12 +74,12 @@ export default function CreateGroupModal({ open, onClose }: CreateGroupModalProp
             {selectedMembers.map((m) => (
               <span
                 key={m._id}
-                className="flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-700"
+                className="flex items-center gap-1 rounded-full bg-brand-100 px-3 py-1 text-sm font-medium text-brand-700"
               >
                 {m.display_name}
                 <button
                   onClick={() => toggleMember(m)}
-                  className="ml-1 text-blue-400 hover:text-blue-600"
+                  className="ml-1 text-brand-400 hover:text-brand-600"
                 >
                   &times;
                 </button>
@@ -93,7 +93,7 @@ export default function CreateGroupModal({ open, onClose }: CreateGroupModalProp
           value={query}
           onChange={(e) => handleSearch(e.target.value)}
           placeholder="Search users to add..."
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+          className="field"
         />
 
         <div className="max-h-40 overflow-y-auto">
@@ -107,12 +107,12 @@ export default function CreateGroupModal({ open, onClose }: CreateGroupModalProp
               <button
                 key={u._id}
                 onClick={() => toggleMember(u)}
-                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left hover:bg-gray-50"
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors hover:bg-slate-50"
               >
                 <Avatar src={u.photo_url} name={u.display_name} size="sm" />
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-medium">{u.display_name}</p>
-                  <p className="truncate text-xs text-gray-400">{u.email}</p>
+                  <p className="truncate text-sm font-semibold text-slate-800">{u.display_name}</p>
+                  <p className="truncate text-xs text-slate-400">{u.email}</p>
                 </div>
               </button>
             ))}
@@ -121,7 +121,7 @@ export default function CreateGroupModal({ open, onClose }: CreateGroupModalProp
         <button
           onClick={handleCreate}
           disabled={!groupName.trim() || selectedMembers.length < 2}
-          className="w-full rounded-lg bg-blue-500 py-2 text-white hover:bg-blue-600 disabled:opacity-50"
+          className="btn-primary w-full"
         >
           Create Group ({selectedMembers.length} members)
         </button>

@@ -5,6 +5,7 @@ import ChatHeader from "@/components/chat/ChatHeader";
 import MessageArea from "@/components/chat/MessageArea";
 import MessageComposer from "@/components/chat/MessageComposer";
 import GroupManageModal from "@/components/chat/GroupManageModal";
+import WelcomeScreen from "@/components/chat/WelcomeScreen";
 import { useChatStore } from "@/store/chatStore";
 import { useSocketStore } from "@/store/socketStore";
 import { useUserStore } from "@/store/userStore";
@@ -111,12 +112,12 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-slate-100">
       {/* Sidebar - responsive */}
       <div
         className={`${
           mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed inset-y-0 left-0 z-30 w-80 transition-transform duration-200 md:relative md:translate-x-0`}
+        } fixed inset-y-0 left-0 z-30 w-80 shadow-xl transition-transform duration-300 md:relative md:translate-x-0 md:shadow-none`}
       >
         <ConversationSidebar onNavigateProfile={() => navigate("/profile")} />
       </div>
@@ -163,19 +164,7 @@ export default function ChatPage() {
             )}
           </>
         ) : (
-          <div className="flex flex-1 flex-col items-center justify-center text-gray-400">
-            <svg className="mb-4 h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-            <p className="text-lg font-medium">Welcome to ChikkaChat</p>
-            <p className="mt-1 text-sm">Select a conversation or start a new one</p>
-            <button
-              onClick={() => setMobileSidebarOpen(true)}
-              className="mt-4 rounded-lg bg-blue-500 px-4 py-2 text-sm text-white hover:bg-blue-600 md:hidden"
-            >
-              Open Conversations
-            </button>
-          </div>
+          <WelcomeScreen onOpenSidebar={() => setMobileSidebarOpen(true)} />
         )}
       </div>
     </div>

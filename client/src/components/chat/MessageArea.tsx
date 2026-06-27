@@ -34,7 +34,7 @@ export default function MessageArea({ conversation, onReply }: MessageAreaProps)
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className="flex-1 overflow-y-auto bg-gray-50 px-4 py-4"
+      className="bg-dot-grid scrollbar-slim flex-1 overflow-y-auto bg-slate-50 px-4 py-4 md:px-6"
     >
       {loading && pagination && pagination.page > 1 && (
         <div className="mb-4 flex justify-center">
@@ -44,11 +44,18 @@ export default function MessageArea({ conversation, onReply }: MessageAreaProps)
 
       {messages.length === 0 && !loading && (
         <div className="flex h-full items-center justify-center">
-          <div className="text-center text-gray-400">
-            <svg className="mx-auto mb-3 h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-            <p>No messages yet. Say hi!</p>
+          <div className="animate-fade-in-up flex flex-col items-center text-center">
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-gradient text-white shadow-float">
+              <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </div>
+            <p className="text-base font-semibold text-slate-700">
+              No messages yet
+            </p>
+            <p className="mt-1 text-sm text-slate-400">
+              Send a message to start the conversation.
+            </p>
           </div>
         </div>
       )}

@@ -25,10 +25,10 @@ export default function ChatHeader({ conversation, onInfoClick, onBackClick }: C
   const isOnline = otherMember ? onlineUsers.has(otherMember._id) : false;
 
   return (
-    <div className="relative flex items-center justify-between border-b bg-white px-4 py-3 md:px-6">
-      <div className="flex items-center gap-3">
+    <div className="relative z-10 flex items-center justify-between border-b border-slate-200 bg-white/90 px-4 py-3 backdrop-blur md:px-6">
+      <div className="flex min-w-0 items-center gap-3">
         {onBackClick && (
-          <button onClick={onBackClick} className="mr-1 rounded-lg p-1 text-gray-500 hover:bg-gray-100 md:hidden">
+          <button onClick={onBackClick} className="icon-btn -ml-1 md:hidden">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
@@ -39,14 +39,25 @@ export default function ChatHeader({ conversation, onInfoClick, onBackClick }: C
           name={displayName}
           online={isGroup ? undefined : isOnline}
         />
-        <div>
-          <h3 className="font-semibold text-gray-800">{displayName}</h3>
-          <p className="text-xs text-gray-500">
-            {isGroup
-              ? `${conversation.members.length} members`
-              : isOnline
-                ? "Online"
-                : "Offline"}
+        <div className="min-w-0">
+          <h3 className="truncate font-semibold text-slate-800">{displayName}</h3>
+          <p className="flex items-center gap-1.5 text-xs">
+            {isGroup ? (
+              <span className="text-slate-500">
+                {conversation.members.length} members
+              </span>
+            ) : (
+              <>
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${
+                    isOnline ? "bg-emerald-500" : "bg-slate-300"
+                  }`}
+                />
+                <span className={isOnline ? "text-emerald-600" : "text-slate-400"}>
+                  {isOnline ? "Active now" : "Offline"}
+                </span>
+              </>
+            )}
           </p>
         </div>
       </div>
@@ -54,7 +65,7 @@ export default function ChatHeader({ conversation, onInfoClick, onBackClick }: C
       <div className="flex items-center gap-1">
         <button
           onClick={() => setSearchOpen(!searchOpen)}
-          className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+          className="icon-btn"
           title="Search messages"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -64,7 +75,7 @@ export default function ChatHeader({ conversation, onInfoClick, onBackClick }: C
         {isGroup && onInfoClick && (
           <button
             onClick={onInfoClick}
-            className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+            className="icon-btn"
             title="Group settings"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
