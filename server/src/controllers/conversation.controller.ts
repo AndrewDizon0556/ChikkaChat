@@ -14,7 +14,7 @@ export const createConversation = async (
       const existing = await Conversation.findOne({
         type: "private",
         members: { $all: [userId, ...members], $size: 2 },
-      });
+      }).populate("members", "display_name photo_url status");
 
       if (existing) {
         res.json(existing);
@@ -28,6 +28,8 @@ export const createConversation = async (
       members: [userId, ...members],
       admin_id: type === "group" ? userId : undefined,
     });
+
+    await conversation.populate("members", "display_name photo_url status");
 
     res.status(201).json(conversation);
   } catch {
